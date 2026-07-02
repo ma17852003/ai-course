@@ -260,15 +260,9 @@
   <div class="presell" style="border-color:var(--amber)">
     <span class="pill" style="background:rgba(255,176,32,.12);color:var(--amber);border-color:rgba(255,176,32,.35)">🔒 審核制・每期限 6 位</span>
     <h2 style="margin-top:14px">申請 1 對 1 顧問陪跑</h2>
-    <p class="sub">高單價陪跑名額有限，先讓我了解你的狀況，合適才約時間深談。</p>
-    <form class="form" style="flex-direction:column;max-width:420px" onsubmit="return applyOneOnOne(event)">
-      <input type="text" name="name" placeholder="怎麼稱呼你" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="text" name="context" placeholder="你的產業／目前在做什麼" required>
-      <input type="text" name="goal" placeholder="想透過陪跑解決什麼問題" required>
-      <button class="btn amber" type="submit">送出申請</button>
-    </form>
-    <p class="trust">合適的話，我會親自回信約 15 分鐘通話；不合適我會直接說，不浪費你時間。</p>
+    <p class="sub">高單價陪跑名額有限，加 LINE 讓我先了解你的狀況，合適才約時間深談。</p>
+    <a href="https://line.me/R/ti/p/@826wdyra" class="btn amber" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px">加 LINE 申請陪跑資格</a>
+    <p class="trust">合適的話會親自約時間深談；不合適我會直接說，不浪費你時間。</p>
   </div>
 </section>
 
@@ -358,22 +352,6 @@
     return false;
   }
 
-  function applyOneOnOne(e){
-    e.preventDefault();
-    const f = e.target;
-    const name = f.name.value.trim();
-    const email = f.email.value.trim();
-    const context = f.context.value.trim();
-    const goal = f.goal.value.trim();
-    if(!name || !email || !context || !goal) return false;
-    try{
-      const params = new URLSearchParams({ email, name, context, goal, source: '1on1-apply' });
-      fetch(WAITLIST_HOOK + '?' + params.toString(), { method:'POST', mode:'no-cors', keepalive:true });
-    }catch(err){ /* 靜默失敗，不擋使用者 */ }
-    alert('✅ 申請收到了！合適的話 James 會親自回信約時間。');
-    f.reset();
-    return false;
-  }
 </script>
 </body>
 </html>
