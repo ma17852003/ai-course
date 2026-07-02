@@ -111,10 +111,6 @@
   details[open] summary::after{content:"−"}
   details p{color:var(--mut);padding:0 0 16px;font-size:15px}
 
-  /* GUARANTEE */
-  .guar{background:var(--card);border:1px dashed var(--green);border-radius:var(--rad);padding:30px;text-align:center;max-width:720px;margin:0 auto}
-  .guar .ic{font-size:38px}
-
   footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;color:var(--mut);font-size:14px}
 
   @media(max-width:840px){
@@ -244,17 +240,35 @@
       <a href="#presell" class="btn">搶早鳥 50 席</a>
     </div>
     <div class="tier">
-      <span class="tag">高階陪跑</span>
+      <span class="tag">高階陪跑・每期限 6 位</span>
       <h3>1 對 1 顧問陪跑</h3>
       <div class="price">NT$38,000 <small>起</small></div>
       <ul>
         <li>專屬 Skool 社群</li>
-        <li>1 對 1 諮詢 + 成果驗收</li>
+        <li>8 週陪跑，共 6 次 1 對 1</li>
         <li>對接真實 B2B 案源</li>
-        <li>從學會到接到第一筆案</li>
+        <li>期末成果驗收，做出可交付成品</li>
       </ul>
-      <a href="#presell" class="btn amber">預約洽談</a>
+      <a href="#apply1on1" class="btn amber">申請陪跑資格</a>
+      <p style="color:var(--mut);font-size:12px;margin-top:10px">審核制，額滿候補下一期</p>
     </div>
+  </div>
+</section>
+
+<!-- ============ APPLY 1:1 ============ -->
+<section class="wrap" id="apply1on1">
+  <div class="presell" style="border-color:var(--amber)">
+    <span class="pill" style="background:rgba(255,176,32,.12);color:var(--amber);border-color:rgba(255,176,32,.35)">🔒 審核制・每期限 6 位</span>
+    <h2 style="margin-top:14px">申請 1 對 1 顧問陪跑</h2>
+    <p class="sub">高單價陪跑名額有限，先讓我了解你的狀況，合適才約時間深談。</p>
+    <form class="form" style="flex-direction:column;max-width:420px" onsubmit="return applyOneOnOne(event)">
+      <input type="text" name="name" placeholder="怎麼稱呼你" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="context" placeholder="你的產業／目前在做什麼" required>
+      <input type="text" name="goal" placeholder="想透過陪跑解決什麼問題" required>
+      <button class="btn amber" type="submit">送出申請</button>
+    </form>
+    <p class="trust">合適的話，我會親自回信約 15 分鐘通話；不合適我會直接說，不浪費你時間。</p>
   </div>
 </section>
 
@@ -281,21 +295,12 @@
   </div>
 </section>
 
-<!-- ============ GUARANTEE ============ -->
-<section class="wrap">
-  <div class="guar">
-    <div class="ic">🛡️</div>
-    <h3 style="margin:8px 0">7 天不滿意，全額退款</h3>
-    <p style="color:var(--mut)">上課 7 天內覺得不適合，寫信給我，無條件全額退費。風險我扛，你只要來學。</p>
-  </div>
-</section>
-
 <!-- ============ FAQ ============ -->
 <section class="wrap">
   <h2>常見問題</h2>
   <div class="faq">
     <details open><summary>我完全零基礎、不會程式，可以嗎？</summary><p>可以。這正是這門課的設計初衷。全程用「指揮 AI 員工」的白話比喻，不需要任何程式背景，跟著做就會。</p></details>
-    <details><summary>「預售」是什麼意思？會不會收錢不出課？</summary><p>預售＝先以最優惠的早鳥價卡位，達標後正式開課，每週直播交付一個模組並同步上架錄影。再加上 7 天全額退款保證，零風險。</p></details>
+    <details><summary>「預售」是什麼意思？會不會收錢不出課？</summary><p>預售＝先以最優惠的早鳥價卡位，達標後正式開課，每週直播交付一個模組並同步上架錄影。</p></details>
     <details><summary>課程是影片還是直播？</summary><p>兩者都有。每週直播教學（可互動問答），結束後上架錄影可無限回看，講義為你的專屬浮水印 PDF。</p></details>
     <details><summary>學完真的能接案 / 變現嗎？</summary><p>軌 B、軌 C 就是為此設計。你會做出名單引擎、AI 客服、自動派工三個可直接交付客戶的成品。想更進一步，有 1 對 1 陪跑層對接真實案源。</p></details>
     <details><summary>需要花很多錢買工具嗎？</summary><p>不用。課程刻意用免費 / 趨近零成本的方案（自架 n8n、免費 AI 模型額度），把工具成本壓到最低。</p></details>
@@ -350,6 +355,23 @@
     }catch(err){ /* 靜默失敗，不擋使用者 */ }
     alert('✅ 卡位成功！電子書與早鳥資訊將寄到：' + email);
     e.target.reset();
+    return false;
+  }
+
+  function applyOneOnOne(e){
+    e.preventDefault();
+    const f = e.target;
+    const name = f.name.value.trim();
+    const email = f.email.value.trim();
+    const context = f.context.value.trim();
+    const goal = f.goal.value.trim();
+    if(!name || !email || !context || !goal) return false;
+    try{
+      const params = new URLSearchParams({ email, name, context, goal, source: '1on1-apply' });
+      fetch(WAITLIST_HOOK + '?' + params.toString(), { method:'POST', mode:'no-cors', keepalive:true });
+    }catch(err){ /* 靜默失敗，不擋使用者 */ }
+    alert('✅ 申請收到了！合適的話 James 會親自回信約時間。');
+    f.reset();
     return false;
   }
 </script>
