@@ -338,7 +338,7 @@
   setInterval(tick,1000); tick();
 
   // 名單收集 → n8n webhook（fire-and-forget，no-cors 避開跨域）
-  const WAITLIST_HOOK = 'https://n8n.infernoedge247365.dpdns.org/webhook/course-waitlist';
+  const WAITLIST_HOOK = 'https://n8n.infernoedge247365.dpdns.org/webhook/course-waitlist-v2';
   function joinWaitlist(e){
     e.preventDefault();
     const input = e.target.querySelector('input');
